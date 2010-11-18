@@ -4,9 +4,11 @@ var inspect = require('inspect')
   , a = []
 
 function x (){}
+function func (args){}
 c.push(c)
 a.push(a)
 x.x = x  
+
  
 var examples = 
     [ [null, JSON.stringify(null)]
@@ -20,7 +22,8 @@ var examples =
     , [c,"REF0 = [1, 2, 3, REF0]"]
     , [a,"REF0 = [REF0]"]
     , [inspect,"[Function: inspect(x)]"]
-    , [x,"REF0 = {[Function: x()] x: REF0}"] ]
+    , [x,"REF0 = {[Function: x()] x: REF0}"] 
+    , [[x,2,3,4,func, {"function": func , x: x } ],"[ REF0 = {[Function: x()] x: REF0}\n, 2\n, 3\n, 4\n, REF1 = [Function: func(args)]\n, {function: REF1, x: REF0} ]"  ]]
 
 exports.inspect = function (test){
 
@@ -37,18 +40,18 @@ exports.inspect = function (test){
   (you'll get an error that REF0 is not defined yet)
 */
 
-
+/*
 exports.inspect_long = function (test){
- var x = "123456767891011121314151617181920"
-   , expected = [x,x,x,x,x,x,x]
-   , expected2 = [1,2,x,5,6,7,8,9,{a:x},12,expected,14,15,16,expected,30]
+ var y = "123456767891011121314151617181920"
+   , expected = [y,y,y,y,y,y,y]
+   , expected2 = [1,2,y,5,6,7,8,9,{a:y},12,expected,14,15,16,expected,30]
    , expected3 = 
-    { a: x
-    , b: x
-    , c: x
-    , d: x
-    , e: x
-    , f: x }
+    { a: y
+    , b: y
+    , c: y
+    , d: y
+    , e: y
+    , f: y }
     , expected4 = expected
       expected4[4] = expected3
    
@@ -56,9 +59,9 @@ exports.inspect_long = function (test){
     console.log(inspect(expected2))
     console.log(inspect(expected3))
     console.log(inspect(require))
-//    test.equal(s,"")
+    console.log(inspect([x,2,3,4,func, {"function": func , x: x } ]))
 
   test.finish()
-}
+}*/
 
 

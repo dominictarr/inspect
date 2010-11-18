@@ -65,7 +65,7 @@ function inspect(x){
     var l = pre.length + f.length + len (ary) + indent
 
     if(ary.length == 0 && func){
-      return f
+      return pre + f
       }  
     if (l > 80){
       if(f != '') f = f + '\n'
