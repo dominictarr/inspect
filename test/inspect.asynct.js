@@ -1,4 +1,10 @@
 
+
+if (module == require.main) {
+  return require('async_testing').run(process.ARGV);
+}
+
+
 var inspect = require('inspect')
   , c = [1,2,3]
   , a = []
