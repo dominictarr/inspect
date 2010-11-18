@@ -6,7 +6,7 @@ function inspect(x){
     , uses = {}
 
     function complex(x){
-      return ('object' === typeof x || 'function' === typeof x)
+      return (x && ('object' === typeof x || 'function' === typeof x))
     }
     function repeats (x){
       for(i in x){
@@ -31,55 +31,82 @@ function inspect(x){
   }
   function varName(x,assign){
     var index = newValues.indexOf(x)
-    return index !== -1 ? ("v" + index + (assign ? " = " : "")) : ""
+    return index !== -1 ? ("REF" + index + (assign ? " = " : "")) : ""
   }
 
   wrote = []
 
-  function header(f){
-   name = /function (\w*\(\w*\))/.exec("" + f)
-//    return name[1]
-   return "[Function" + (name ? (': ' + name[1] ) : "") + "]"
+  function isFunction(f){
+    if('function' !== typeof f)
+      return ''
+    name = /function (\w*\(\w*\))/.exec("" + f)
+    return "[Function" + (name ? (': ' + name[1] ) : "") + "]"
   }
 
-  function checkFunction(x,obj){
-    if('function' == typeof x){
-      if (obj.length > 0)
-        return '{' + header(x) + ' ' + obj.join(',') + '}'
-      else
-        return header(x)
+  function len (x){
+    var l = 0
+    x.forEach(function (e){
+      l = l + (e ? e.length : 0)  + 2
+    })
+    return l
+  }
+  function spaces(indent){
+    var s = ""
+    while (s.length < indent){
+      s += " "
+    }
+    return  s
+  }
+  function format(pre,func,ary,indent,array){
+    var open,close;
+    if (array) { open = '['; close = ']' }        
+    else       { open = '{'; close = '}' }
+    var f = isFunction(func)
+    var l = pre.length + f.length + len (ary) + indent
+
+    if(ary.length == 0 && func){
+      return f
+      }  
+    if (l > 80){
+      if(f != '') f = f + '\n'
+      if(pre != '') pre = pre + '\n  '
+      open = open + ' '
+      close = ' ' + close
+      return pre + open + f + ary.join("\n" + spaces(indent) + ", ") + close
     } else {
-       return '{' + obj.join(',') + '}'
+      if(f != '') f = f + ' '
+      return pre + open + f + ary.join(", ") + close
     }
   }
 
-
-  function stringify (x){
+  function stringify (x,spaces){
     if(wrote.indexOf(x) === -1) {
       if (x instanceof Array){
         wrote.push(x)
-        return varName(x,true) + "[" + x.map(function(v,k){return stringify(v)}).join(",") + "]"
+        var ary = x.map(function(v,k){return stringify(v,spaces + 2)})
+          , pre = varName(x,true)
+        return format(pre,null,ary,spaces,true)
         
       } else if (complex(x)) {
         wrote.push(x)
         var obj = []
+        var pre = varName(x,true)
         for(i in x){
-          obj.push(i  + ": " +  stringify(x[i]))
+          obj.push(i  + ": " +  stringify(x[i],spaces + 2))
         }
-        return varName(x,true) + checkFunction(x, obj)
-        //return varName(x,true) + "{" + obj.join(",") + "}"
-      } /*else if( 'function' == typeof x) {
-        wrote.push(x)
-        return varName(x,true) + '[function]'
         
-      } */else  {
+        return format(pre,x,obj,spaces,false)
+        /*
+        return varName(x,true) + checkFunction(x, obj)
+        */
+      } else  {
         return JSON.stringify(x)
       }
     } else {
       return varName(x)
     }
   }
-  return stringify(x)
+  return stringify(x,0)
 }
 
 
