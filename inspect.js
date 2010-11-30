@@ -1,5 +1,22 @@
 module.exports = inspect
 
+/*
+  currently this just does what util.inspect does 
+  (although with refs)
+  
+  i will change this from inspect, to 'render'
+  
+  and add ways to control, say, white space,
+  and how individual items are written out,
+  add support for styling, and even HTML generation.
+
+  I also need something which colour codes assertion messages.
+  i.e. colour matching items green, and mismatching items red,
+  uncompared items yellow..
+
+  and for a while I've thought that colour coding levels of indentation would be interesting.
+*/
+
 function inspect(x){
 
   var values = []
