@@ -38,7 +38,7 @@ function inspect(x){
       }
     }
 
-  if (complex(x)) { repeats(x) } else { return JSON.stringify(x) }
+  if (complex(x)) { repeats(x) } //else { return JSON.stringify(x) }
 
   var newValues = []
   for(i in values){
@@ -95,6 +95,22 @@ function inspect(x){
       return pre + open + f + ary.join(", ") + close
     }
   }
+  function formatString(x,spaces){
+    if(x.indexOf('\n') == -1){
+      return JSON.stringify(x)
+      }
+    var list = x.split('\n')
+      , last = list.pop()
+  
+    list = list.map(function(i){return i + '\n'})
+    list.push(last)
+    var s = '' + JSON.stringify(list.shift())
+      
+      list.forEach(function (e){
+        s += '\n+ ' + JSON.stringify(e)
+      })
+      return s
+  }  
 
   function stringify (x,spaces){
     if(wrote.indexOf(x) === -1) {
@@ -111,11 +127,12 @@ function inspect(x){
         for(i in x){
           obj.push(i  + ": " +  stringify(x[i],spaces + 2))
         }
-//          console.log("OBJ KEYS LENGFH == 0")
         return format(pre,x,obj,spaces,false)
         /*
         return varName(x,true) + checkFunction(x, obj)
         */
+      } else if ('string' == typeof x){
+        return formatString(x,spaces)
       } else  {
         return JSON.stringify(x)
       }
@@ -123,6 +140,7 @@ function inspect(x){
       return varName(x)
     }
   }
+
   return stringify(x,0)
 }
 

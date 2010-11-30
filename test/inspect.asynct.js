@@ -20,6 +20,7 @@ var examples =
     [ [null, JSON.stringify(null)]
     , [undefined, JSON.stringify(undefined)]
     , ["hello"  ,'"hello"']
+    , ["oh!\nhell"  ,'"oh!\\n"\n+ "hell"']
     , [1        , '1'     ]
     , [0.01231  ,'0.01231']
     , [[1,2,3]  ,'[1, 2, 3]']
@@ -30,6 +31,7 @@ var examples =
     , [inspect,"[Function: inspect(x)]"]
     , [x,"REF0 = {[Function: x()] x: REF0}"] 
     , [{},'{}']
+    , ['line1\nline2\nline3', '"line1\\n"\n+ "line2\\n"\n+ "line3"']
     , [{x: ref0 = {}, x2: ref0},'{x: REF0 = {}, x2: REF0}']
     , [[x,2,3,4,func, {"function": func , x: x } ],"[ REF0 = {[Function: x()] x: REF0}\n, 2\n, 3\n, 4\n, REF1 = [Function: func(args)]\n, {function: REF1, x: REF0} ]"  ]]
 
