@@ -64,7 +64,7 @@ function inspect(x){
     var f = isFunction(func)
     var l = pre.length + f.length + len (ary) + indent
 
-    if(ary.length == 0 && func){
+    if(ary.length == 0 && f != ''){
       return pre + f
       }  
     if (l > 80){
@@ -94,7 +94,7 @@ function inspect(x){
         for(i in x){
           obj.push(i  + ": " +  stringify(x[i],spaces + 2))
         }
-        
+//          console.log("OBJ KEYS LENGFH == 0")
         return format(pre,x,obj,spaces,false)
         /*
         return varName(x,true) + checkFunction(x, obj)

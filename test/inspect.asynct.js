@@ -15,7 +15,7 @@ c.push(c)
 a.push(a)
 x.x = x  
 
- 
+var ref0
 var examples = 
     [ [null, JSON.stringify(null)]
     , [undefined, JSON.stringify(undefined)]
@@ -29,6 +29,8 @@ var examples =
     , [a,"REF0 = [REF0]"]
     , [inspect,"[Function: inspect(x)]"]
     , [x,"REF0 = {[Function: x()] x: REF0}"] 
+    , [{},'{}']
+    , [{x: ref0 = {}, x2: ref0},'{x: REF0 = {}, x2: REF0}']
     , [[x,2,3,4,func, {"function": func , x: x } ],"[ REF0 = {[Function: x()] x: REF0}\n, 2\n, 3\n, 4\n, REF1 = [Function: func(args)]\n, {function: REF1, x: REF0} ]"  ]]
 
 exports.inspect = function (test){
@@ -40,11 +42,14 @@ exports.inspect = function (test){
 
   test.finish()
 }
+
 /*
   this works for repeated objects...
   but it doesn't actually produce valid js for circular objects
   (you'll get an error that REF0 is not defined yet)
 */
+
+
 
 /*
 exports.inspect_long = function (test){
