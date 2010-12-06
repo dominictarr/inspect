@@ -1,0 +1,9 @@
+{ "name" :"inspect"
+, "author": "dominictarr"
+, "tests": 
+    { "inspect": 
+      { "test": "inspect/test/inspect.asynct"
+      , "target": "inspect"
+      }
+    }
+}

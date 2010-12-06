@@ -57,7 +57,7 @@ function inspect(x){
     if('function' !== typeof f)
       return ''
     name = /function (\w*\(\w*\))/.exec("" + f)
-    return "[Function" + (name ? (': ' + name[1] ) : "") + "]"
+    return "function" + (name ? (' ' + name[1] ) : "") 
   }
 
   function len (x){
@@ -76,13 +76,13 @@ function inspect(x){
   }
   function format(pre,func,ary,indent,array){
     var open,close;
-    if (array) { open = '['; close = ']' }        
+    if (array || 'function' == typeof func) { open = '['; close = ']' }
     else       { open = '{'; close = '}' }
     var f = isFunction(func)
     var l = pre.length + f.length + len (ary) + indent
 
     if(ary.length == 0 && f != ''){
-      return pre + f
+      return pre + open + f + close
       }  
     if (l > 80){
       if(f != '') f = f + '\n'
